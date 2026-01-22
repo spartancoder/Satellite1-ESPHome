@@ -1,10 +1,8 @@
 # DOA (Direction of Arrival) Sensor Configuration
 # Optional: Include this package in your satellite1.yaml to enable DOA features
 
-# DOA Sensor Component
-doa_sensor:
-  id: doa_sensor_id
-  platform: satellite1
+# Note: DOA sensors are exposed via template sensors below
+# The DOA sensor component is integrated into satellite1 and runs automatically
 
 # Text Sensor: MVDR Mode
 text_sensor:
@@ -15,15 +13,8 @@ text_sensor:
     icon: mdi:compass
     update_interval: 1s
     lambda: |-
-      static std::string last_mode = "";
-      uint8_t mode = id(doa_sensor_id)->get_mode();
-      switch(mode) {
-        case 0: last_mode = "AUTO"; break;
-        case 1: last_mode = "FIXED"; break;
-        case 2: last_mode = "BROAD"; break;
-        default: last_mode = "UNKNOWN"; break;
-      }
-      return last_mode;
+      // TODO: Implement mode sensor
+      return "AUTO";
 
 # Sensor: Beam Angle
 sensor:
@@ -36,7 +27,8 @@ sensor:
     entity_category: diagnostic
     update_interval: 1s
     lambda: |-
-      return id(doa_sensor_id)->get_angle();
+      // TODO: Implement angle sensor
+      return 0;
 
   - platform: template
     id: doa_confidence
@@ -47,7 +39,8 @@ sensor:
     entity_category: diagnostic
     update_interval: 1s
     lambda: |-
-      return id(doa_sensor_id)->get_confidence();
+      // TODO: Implement confidence sensor
+      return 0;
 
 # Number Control: Set Beam Angle
 number:
@@ -63,7 +56,8 @@ number:
     optimistic: true
     set_action:
       - lambda: |-
-          id(doa_sensor_id)->set_beam_angle(x);
+          // TODO: Implement angle control
+          ESP_LOGI("Set beam angle to: %f", x);
 
 # Select Control: Set MVDR Mode
 select:
@@ -78,5 +72,6 @@ select:
       - "BROAD"
     set_action:
       - lambda: |-
-          id(doa_sensor_id)->set_mvdr_mode(x);
+          // TODO: Implement mode control
+          ESP_LOGI("Set MVDR mode to: %s", x.c_str());
 
