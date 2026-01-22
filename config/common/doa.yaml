@@ -14,7 +14,7 @@ text_sensor:
     update_interval: 1s
     lambda: |-
       // TODO: Implement mode sensor
-      return "AUTO";
+      return {"AUTO"};
 
 # Sensor: Beam Angle
 sensor:
@@ -57,7 +57,7 @@ number:
     set_action:
       - lambda: |-
           // TODO: Implement angle control
-          ESP_LOGI("Set beam angle to: %f", x);
+          ESP_LOGI("doa", "Set beam angle to: %.0f", x);
 
 # Select Control: Set MVDR Mode
 select:
@@ -73,5 +73,5 @@ select:
     set_action:
       - lambda: |-
           // TODO: Implement mode control
-          ESP_LOGI("Set MVDR mode to: %s", x.c_str());
+          ESP_LOGI("doa", "Set MVDR mode to: %s", x.c_str());
 
