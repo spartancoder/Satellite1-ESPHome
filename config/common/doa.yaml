@@ -1,77 +1,26 @@
 # DOA (Direction of Arrival) Sensor Configuration
 # Optional: Include this package in your satellite1.yaml to enable DOA features
 
-# Note: DOA sensors are exposed via template sensors below
-# The DOA sensor component is integrated into satellite1 and runs automatically
-
-# Text Sensor: MVDR Mode
-text_sensor:
-  - platform: template
-    id: doa_mode
-    name: "${friendly_name} DOA Mode"
-    entity_category: diagnostic
-    icon: mdi:compass
-    update_interval: 1s
-    lambda: |-
-      // TODO: Implement mode sensor
-      return {"AUTO"};
-
-# Sensor: Beam Angle
-sensor:
-  - platform: template
-    id: doa_angle
-    name: "${friendly_name} Beam Angle"
-    unit_of_measurement: "°"
-    icon: mdi:compass
-    accuracy_decimals: 0
-    entity_category: diagnostic
-    update_interval: 1s
-    lambda: |-
-      // TODO: Implement angle sensor
-      return 0;
-
-  - platform: template
-    id: doa_confidence
-    name: "${friendly_name} Beam Confidence"
-    unit_of_measurement: "%"
-    icon: mdi:signal
-    accuracy_decimals: 1
-    entity_category: diagnostic
-    update_interval: 1s
-    lambda: |-
-      // TODO: Implement confidence sensor
-      return 0;
-
-# Number Control: Set Beam Angle
-number:
-  - platform: template
-    id: doa_set_angle
-    name: "${friendly_name} Set Beam Angle"
-    unit_of_measurement: "°"
-    icon: mdi:angle-acute
-    min_value: 0
-    max_value: 359
-    step: 1
-    entity_category: config
-    optimistic: true
-    set_action:
-      - lambda: |-
-          // TODO: Implement angle control
-          ESP_LOGI("doa", "Set beam angle to: %.0f", x);
-
-# Select Control: Set MVDR Mode
-select:
-  - platform: template
-    id: doa_set_mode
-    name: "${friendly_name} MVDR Mode"
-    icon: mdi:compass
-    entity_category: config
-    options:
-      - "AUTO"
-      - "FIXED"
-      - "BROAD"
-    set_action:
-      - lambda: |-
-          // TODO: Implement mode control
-          ESP_LOGI("doa", "Set MVDR mode to: %s", x.c_str());
-
+# DOA Sensor Component - handles SPI communication and data updates
+doa_sensor:
+  - platform: satellite1
+    id: doa_sensor_id
+    # Sensors (automatically updated by DOA component via SPI)
+    mode_sensor:
+      name: "${friendly_name} DOA Mode"
+    angle_sensor:
+      name: "${friendly_name} Beam Angle"
+    confidence_sensor:
+      name: "${friendly_name} Beam Confidence"
+    # Controls (send commands to XMOS via SPI)
+    angle_number:
+      name: "${friendly_name} Set Beam Angle"
+      min_value: 0
+      max_value: 359
+      step: 1
+    mode_select:
+      name: "${friendly_name} MVDR Mode"
+      options:
+        - "AUTO"
+        - "FIXED"
+        - "BROAD"
