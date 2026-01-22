@@ -44,11 +44,13 @@ CONFIG_SCHEMA = cv.Schema({
         entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
     ),
     cv.Optional(CONF_ANGLE_NUMBER): number.number_schema(
+        number.Number,
         unit_of_measurement=UNIT_DEGREES,
         icon="mdi:angle-acute",
         entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_MODE_SELECT): select.select_schema(
+        select.Select,
         icon="mdi:compass",
         entity_category=ENTITY_CATEGORY_CONFIG,
     ),
