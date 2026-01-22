@@ -27,6 +27,11 @@ class DOASensor : public Satellite1SPIService, public Component {
   void set_beam_angle(float angle);
   void set_mvdr_mode(const std::string &mode);
 
+  // Getter methods for template sensors
+  uint8_t get_mode() { return current_mode_; }
+  int32_t get_angle() { return current_angle_; }
+  float get_confidence() { return current_confidence_; }
+
  protected:
   // Data acquisition
   void update_doa_data_();
