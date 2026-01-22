@@ -1,0 +1,65 @@
+# DOA (Direction of Arrival) Sensor Configuration
+# Optional: Include this package in your satellite1.yaml to enable DOA features
+
+# DOA Sensor Component
+doa_sensor:
+  id: doa_sensor_id
+  platform: satellite1
+
+# Text Sensor: MVDR Mode
+text_sensor:
+  - platform: satellite1
+    id: doa_mode
+    name: "${friendly_name} DOA Mode"
+    entity_category: diagnostic
+    icon: mdi:compass
+
+# Sensor: Beam Angle
+sensor:
+  - platform: satellite1
+    id: doa_angle
+    name: "${friendly_name} Beam Angle"
+    unit_of_measurement: "°"
+    icon: mdi:compass
+    accuracy_decimals: 0
+    entity_category: diagnostic
+
+  - platform: satellite1
+    id: doa_confidence
+    name: "${friendly_name} Beam Confidence"
+    unit_of_measurement: "%"
+    icon: mdi:signal
+    accuracy_decimals: 1
+    entity_category: diagnostic
+
+# Number Control: Set Beam Angle
+number:
+  - platform: satellite1
+    id: doa_set_angle
+    name: "${friendly_name} Set Beam Angle"
+    unit_of_measurement: "°"
+    icon: mdi:angle-acute
+    min_value: 0
+    max_value: 359
+    step: 1
+    entity_category: config
+    on_value:
+      then:
+        - lambda: |-
+            id(doa_sensor_id)->set_beam_angle(x);
+
+# Select Control: Set MVDR Mode
+select:
+  - platform: satellite1
+    id: doa_set_mode
+    name: "${friendly_name} MVDR Mode"
+    icon: mdi:compass
+    entity_category: config
+    options:
+      - "AUTO"
+      - "FIXED"
+      - "BROAD"
+    on_value:
+      then:
+        - lambda: |-
+            id(doa_sensor_id)->set_mvdr_mode(x);

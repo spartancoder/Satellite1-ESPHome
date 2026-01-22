@@ -91,3 +91,6 @@ async def erase_memory_action_to_code(config, action_id, template_arg, args):
     await cg.register_parented(var, config[CONF_SATELLITE1])
     return var
 
+# DOA Sensor support
+from esphome.components.satellite1 import doa
+
